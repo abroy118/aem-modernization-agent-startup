@@ -1,7 +1,0 @@
-{
-  "mappings": [
-    "/content/modern-agent/:/",
-    "/content/modern-agent/metadata:/metadata.json",
-    "/content/modern-agent/configuration:/.helix/config.json"
-  ]
-}

@@ -125,5 +125,26 @@ export default function parse(element, { document }) {
   }
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'cards-product', cells });
-  element.replaceWith(block);
+
+  // Section intro (title + description) rendered as default content above the
+  // block, matching the source "The Payments And Data Company" header.
+  const introFrag = document.createDocumentFragment();
+  const titleEl = element.querySelector(
+    '.featured-products-hero-gen3v1__content__title, [class*="content__title"]',
+  );
+  const descEl = element.querySelector(
+    '.featured-products-hero-gen3v1__content__description, [class*="content__description"]',
+  );
+  if (titleEl) {
+    const h2 = document.createElement('h2');
+    h2.textContent = titleEl.textContent.replace(/\s+/g, ' ').trim();
+    if (h2.textContent) introFrag.appendChild(h2);
+  }
+  if (descEl) {
+    const p = document.createElement('p');
+    p.textContent = descEl.textContent.replace(/\s+/g, ' ').trim();
+    if (p.textContent) introFrag.appendChild(p);
+  }
+
+  element.replaceWith(introFrag, block);
 }

@@ -4,6 +4,18 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 // keep track globally of the number of tab blocks on the page
 let tabBlockCnt = 0;
 
+// Map each solution tab label to its icon asset (source: deluxe.com solution
+// slider icons). Keyed by a normalized (lowercased, trimmed) label.
+const TAB_ICONS = {
+  'pay with ease': '/content/images/solution-pay-with-ease.svg',
+  'get paid faster': '/content/images/solution-get-paid-faster.svg',
+  'grow profitably': '/content/images/solution-grow-profitably.svg',
+};
+
+function iconForLabel(label) {
+  return TAB_ICONS[(label || '').replace(/\s+/g, ' ').trim().toLowerCase()] || null;
+}
+
 export default async function decorate(block) {
   // build tablist
   const tablist = document.createElement('div');
@@ -33,6 +45,16 @@ export default async function decorate(block) {
     button.id = `tab-${id}`;
 
     button.innerHTML = tab.innerHTML;
+
+    // Prepend the solution icon (matches source tab cards: icon stacked above label).
+    const iconSrc = iconForLabel(tab.textContent);
+    if (iconSrc) {
+      const img = document.createElement('img');
+      img.src = iconSrc;
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      button.prepend(img);
+    }
 
     button.setAttribute('aria-controls', id);
     button.setAttribute('aria-selected', !i);

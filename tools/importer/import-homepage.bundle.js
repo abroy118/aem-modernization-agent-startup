@@ -117,7 +117,24 @@ var CustomImportScript = (() => {
       return;
     }
     const block = WebImporter.Blocks.createBlock(document, { name: "cards-product", cells });
-    element.replaceWith(block);
+    const introFrag = document.createDocumentFragment();
+    const titleEl = element.querySelector(
+      '.featured-products-hero-gen3v1__content__title, [class*="content__title"]'
+    );
+    const descEl = element.querySelector(
+      '.featured-products-hero-gen3v1__content__description, [class*="content__description"]'
+    );
+    if (titleEl) {
+      const h2 = document.createElement("h2");
+      h2.textContent = titleEl.textContent.replace(/\s+/g, " ").trim();
+      if (h2.textContent) introFrag.appendChild(h2);
+    }
+    if (descEl) {
+      const p = document.createElement("p");
+      p.textContent = descEl.textContent.replace(/\s+/g, " ").trim();
+      if (p.textContent) introFrag.appendChild(p);
+    }
+    element.replaceWith(introFrag, block);
   }
 
   // tools/importer/parsers/story-banner.js
@@ -328,7 +345,32 @@ var CustomImportScript = (() => {
       return;
     }
     const block = WebImporter.Blocks.createBlock(document, { name: "cards-services", cells });
-    element.replaceWith(block);
+    const introFrag = document.createDocumentFragment();
+    const eyebrowEl = element.querySelector(
+      '.flashing-cards-variation-2__label, [class*="__label"]'
+    );
+    const titleEl = element.querySelector(
+      '.flashing-cards-variation-2__page-title, [class*="page-title"], h2'
+    );
+    const descEl = element.querySelector(
+      '.flashing-cards-variation-2__page-description, [class*="page-description"]'
+    );
+    if (eyebrowEl) {
+      const p = document.createElement("p");
+      p.textContent = eyebrowEl.textContent.replace(/\s+/g, " ").trim();
+      if (p.textContent) introFrag.appendChild(p);
+    }
+    if (titleEl) {
+      const h2 = document.createElement("h2");
+      h2.textContent = titleEl.textContent.replace(/\s+/g, " ").trim();
+      if (h2.textContent) introFrag.appendChild(h2);
+    }
+    if (descEl) {
+      const p = document.createElement("p");
+      p.textContent = descEl.textContent.replace(/\s+/g, " ").trim();
+      if (p.textContent) introFrag.appendChild(p);
+    }
+    element.replaceWith(introFrag, block);
   }
 
   // tools/importer/parsers/cards-news.js
